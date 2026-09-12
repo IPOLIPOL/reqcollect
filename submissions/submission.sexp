@@ -1,0 +1,61 @@
+(submission
+ (schema-id crane)
+ (schema-version 0.1.0)
+ (created-at "2026-09-12T19:25:23.790Z")
+ (author "ipol@ffffff.com")
+ (requirements
+  (requirement
+   (group purpose)
+   (text "lift lift and lift")
+   (source "contract #1")
+   (note "all is good")
+   )
+  (requirement
+   (group safety)
+   (text "444 v")
+   (source "contract #7")
+   (note "yes and no")
+   )
+  (requirement
+   (group environmental)
+   (text "45~dd")
+   (source "contract #5")
+   (note "333")
+   )
+  (requirement
+   (group functional)
+   (text "100%")
+   (source "contract #2")
+   (note "all is good all is good")
+   )
+  (requirement
+   (group interface)
+   (text "a lot")
+   (source "contract #6")
+   (note "34#4ff")
+   )
+  (requirement
+   (group performance)
+   (text "ffjjf , dd< sss > ddd")
+   (source "contract #3")
+   (note "all is good,,,,")
+   )
+  (requirement
+   (group manufacturing)
+   (text "none")
+   (source "contract #9")
+   (note "llfkkf")
+   )
+  (requirement
+   (group testing)
+   (text "not pplicable")
+   (source "contract #8")
+   (note "nd ddd")
+   )
+  (requirement
+   (group regulatory)
+   (text "/><4")
+   (source "contract #4")
+   (note "ddd")
+   )
+  ))

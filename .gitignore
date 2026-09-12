@@ -1,0 +1,27 @@
+# Build artifacts
+_build/
+dist/
+repo/
+
+# OCaml / dune
+*.annot
+*.cmi
+*.cmo
+*.cmx
+*.cma
+*.cmxa
+*.a
+*.o
+*.so
+*.exe
+*.byte
+*.bc.js
+.dune/
+*.install
+_opam/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
