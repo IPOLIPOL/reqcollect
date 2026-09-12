@@ -48,9 +48,8 @@ reqcollect/
 ├── bin/
 │   └── main.ml             CLI entry point
 ├── web/                    js_of_ocaml collector
-│   ├── main.ml
-│   └── dune                includes schema_data.ml rule
-├── web/template.html       HTML shell with __INJECT_JS__ placeholder
+│   ├── main.ml             js generator
+│   └── template.html       HTML shell with __INJECT_JS__ placeholder
 ├── schemas/
 │   └── crane.v1.sexp       example schema
 ├── submissions/            incoming collector exports
@@ -133,10 +132,9 @@ sexp syntax.
 
 ## Design notes
 
-**Why sexp, not JSON.** S-expressions are trivially canonical (one
+**Why sexp** S-expressions are trivially canonical (one
 spelling per tree), trivially safely readable without `eval`, diffable
-in Git, and natively supported in OCaml via `sexplib0`. JSON buys
-nothing here and adds a second format to maintain.
+in Git, and natively supported in OCaml via `sexplib0`. 
 
 **Why IDs are assigned at merge.** The collector runs offline, in
 isolation. Two collectors cannot coordinate to produce unique
@@ -158,7 +156,3 @@ real submissions is known* — not before.
 IO edge, which suits a functional language. The collector compiles
 OCaml to JavaScript via `js_of_ocaml`, so the JS in the HTML bundle is
 a build artifact, never hand-written.
-
-## License
-
-see [LICENSE](LICENSE)

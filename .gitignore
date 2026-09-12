@@ -1,7 +1,6 @@
 # Build artifacts
 _build/
-dist/
-repo/
+
 
 # OCaml / dune
 *.annot
