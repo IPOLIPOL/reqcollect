@@ -23,6 +23,9 @@ The whole toolchain is OCaml. JavaScript in the HTML bundles is a
 `js_of_ocaml` build artifact, never hand-written.
 
 ## Flow
+
+> Workflow overview: **<https://ipolipol.github.io/reqcollect/>**
+
 ```
         ┌──────────────────────────┐
         │ schemas/crane.v1.sexp    │  the questionnaire definition
@@ -97,6 +100,21 @@ reqcollect/
 ├── repo/                        merged.sexp, merged.html
 └── dist/                        generated collector.html
 ```
+
+### Renaming the placeholder
+
+The schema ships with the id `example` and the filename
+`schemas/example.v1.sexp`. This is a placeholder — pick any name for
+your project and use it consistently:
+
+1. Rename `schemas/example.v1.sexp` to `schemas/<your-name>.v1.sexp`.
+2. Inside it, set `(id <your-name>)` and `(name "...")`.
+3. Update the `SUBMISSIONS`/schema path in the `Makefile` if you named
+   it differently.
+4. Rebuild: `make clean && make collector`.
+
+The collector reads `schema-id` and `schema-version` from the schema
+file itself, so nothing else needs to know the name.
 
 ## Build
 ```sh
@@ -234,9 +252,8 @@ opens from disk, prints cleanly, and needs no server. Both are just
 ## License
 
 reqcollect is open source and released under the MIT License. This license allows you to freely use, modify, and distribute the software for both personal and commercial purposes. While the MIT License permits anyone to fork or reimplement the project, the core idea, user experience, and design of reqcollect are the result of careful thought and iteration. We kindly ask that if you build upon this project, you:
-
-Give appropriate credit to the original work
-Consider contributing any improvements back to the community
+- Give appropriate credit to the original work
+- Consider contributing any improvements back to the community
 If you're looking for additional features (custom branding, password protection, advanced customization, etc.), commercial licensing, or support, feel free to reach out.
 
 © 2026 IPOLIPOL. All rights reserved. reqcollect is a trademark of IPOLIPOL.

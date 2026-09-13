@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>reqcollect — workflow</title>
+<style>
+  :root {
+    --accent: #0366d6;
+    --border: #e1e4e8;
+    --muted: #586069;
+    --bg: #f6f8fa;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 15px/1.55 -apple-system, system-ui, "Segoe UI", sans-serif;
+    max-width: 1240px; margin: 0 auto; padding: 4em 2em 6em;
+    color: #24292e; background: #fff;
+  }
+  header { margin-bottom: 2.5em; }
+  h1 { font-size: 2em; margin: 0 0 0.2em; }
+  .subtitle { color: var(--muted); margin: 0; }
+  .subtitle code {
+    font-family: ui-monospace, Menlo, monospace;
+    background: var(--bg); padding: 0.1em 0.4em; border-radius: 3px;
+    font-size: 0.9em;
+  }
+
+  .flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0.6em;
+    overflow-x: auto;
+    padding: 0.5em 0 1em;
+  }
+  .step {
+    flex: 1 0 190px;
+    display: flex; flex-direction: column;
+    border: 1px solid var(--border); border-radius: 8px;
+    background: #fff; padding: 1em 1.1em;
+    transition: border-color 0.15s;
+  }
+  .step:hover { border-color: #b9bec7; }
+  .step .num {
+    font-size: 0.72em; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--muted);
+    margin-bottom: 0.4em;
+  }
+  .step h3 { font-size: 1em; margin: 0 0 0.5em; }
+  .step p  { font-size: 0.87em; color: var(--muted); margin: 0 0 0.7em; }
+  .step code, .cmd {
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.8em;
+    background: var(--bg); color: #24292e;
+    padding: 0.15em 0.4em; border-radius: 3px;
+  }
+  .step .cmd {
+    display: block;
+    margin-top: auto;
+    white-space: nowrap;
+    overflow-x: auto;
+  }
+
+  .arrow {
+    flex: 0 0 auto;
+    align-self: center;
+    color: var(--muted);
+    font-size: 1.6em;
+    padding: 0 0.1em;
+    user-select: none;
+  }
+
+  .legend {
+    margin-top: 3em;
+    padding-top: 1.5em;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9em;
+  }
+  .legend code {
+    font-family: ui-monospace, Menlo, monospace;
+    background: var(--bg); padding: 0.1em 0.4em; border-radius: 3px;
+  }
+  a { color: var(--accent); }
+  @media (max-width: 900px) {
+    body { padding: 2em 1em 4em; }
+    .flow { flex-direction: column; overflow: visible; }
+    .arrow { transform: rotate(90deg); padding: 0.2em 0; }
+    .step { flex: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>reqcollect — workflow</h1>
+  <p class="subtitle">
+    Offline requirements collection, merged into a single versioned
+    repository. Source: <a href="https://github.com/IPOLIPOL/reqcollect">github.com/IPOLIPOL/reqcollect</a>.
+  </p>
+</header>
+
+<section class="flow" aria-label="Workflow">
+
+  <div class="step">
+    <div class="num">1 · Define</div>
+    <h3>Schema</h3>
+    <p>Write the questionnaire once: header fields, thematic groups,
+       requirement fields. One file per project.</p>
+    <span class="cmd">schemas/example.v1.sexp</span>
+  </div>
+
+  <div class="arrow" aria-hidden="true">→</div>
+
+  <div class="step">
+    <div class="num">2 · Build</div>
+    <h3>Collector</h3>
+    <p>Compile the schema into a single self-contained HTML file.
+       No server, no install.</p>
+    <span class="cmd">make collector</span>
+  </div>
+
+  <div class="arrow" aria-hidden="true">→</div>
+
+  <div class="step">
+    <div class="num">3 · Distribute</div>
+    <h3>Collect</h3>
+    <p>Send <code>collector.html</code> to reviewers. Each fills the
+       form offline and exports a submission.</p>
+    <span class="cmd">submission.sexp</span>
+  </div>
+
+  <div class="arrow" aria-hidden="true">→</div>
+
+  <div class="step">
+    <div class="num">4 · Merge</div>
+    <h3>Central repo</h3>
+    <p>Drop submissions into <code>submissions/</code>. The merge tool
+       assigns IDs and copies headers into every requirement.</p>
+    <span class="cmd">make merge</span>
+  </div>
+
+  <div class="arrow" aria-hidden="true">→</div>
+
+  <div class="step">
+    <div class="num">5 · Render</div>
+    <h3>Merged view</h3>
+    <p>A single HTML file with a navigable tree, folding, and
+       PDF / Word export.</p>
+    <span class="cmd">make render</span>
+  </div>
+
+  <div class="arrow" aria-hidden="true">→</div>
+
+  <div class="step">
+    <div class="num">6 · Archive</div>
+    <h3>Version control</h3>
+    <p>Everything is plain s-expressions. Commit, diff, and blame with
+       git — no database.</p>
+    <span class="cmd">git push</span>
+  </div>
+
+</section>
+
+<section class="legend">
+  <p>
+    Data format throughout: s-expressions. Schema, submission, and
+    merged output share the same syntax. JavaScript in the HTML bundles
+    is a <code>js_of_ocaml</code> build artifact; the source is OCaml.
+  </p>
+</section>
+
+</body>
+</html>
