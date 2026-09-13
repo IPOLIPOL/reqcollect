@@ -9,10 +9,16 @@ let run paths out_path batch_id =
   | schema_path :: sub_paths ->
     if sub_paths = [] then
       failwith "need at least one submission file";
-    ignore (Schema.load schema_path);
+    let schema = Schema.load schema_path in
     let subs = List.map Submission.load sub_paths in
     let merged = Merge.merge ~batch_id subs in
-    let sexp = Merge.to_sexp ~batch_id merged in
+    let sexp =
+      Merge.to_sexp
+        ~batch_id
+        ~schema_id:schema.Schema.id
+        ~schema_version:schema.Schema.version
+        merged
+    in
     ensure_dir (Filename.dirname out_path);
     Out_channel.with_open_bin out_path (fun oc ->
       Out_channel.output_string oc (Sexplib.Sexp.to_string_hum ~indent:1 sexp);
@@ -38,3 +44,6 @@ let merge_cmd =
 let () =
   let info = Cmd.info "reqcollect" ~version:"0.1.0" in
   exit (Cmd.eval (Cmd.group info [merge_cmd]))
+
+
+

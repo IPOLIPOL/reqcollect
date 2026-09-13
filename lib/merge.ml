@@ -2,13 +2,13 @@ open Sexplib0.Sexp
 module Sexp = Sexplib0.Sexp
 
 type merged = {
-  id : string;
+  id         : string;
   display_id : string;
-  group : string;
-  text : string;
-  source : string option;
-  note : string option;
-  author : string;
+  group      : string;
+  text       : string;
+  source     : string option;
+  note       : string option;
+  headers    : (string * string) list;   (* was: author : string *)
 }
 
 let abbrev = function
@@ -42,11 +42,11 @@ let merge ~batch_id (subs : Submission.t list) : merged list =
               text = r.text;
               source = r.source;
               note = r.note;
-              author = s.author })
+              headers = s.Submission.headers })
          s.Submission.requirements)
     subs
 
-let to_sexp ~batch_id (ms : merged list) : Sexp.t =
+let to_sexp ~batch_id ~schema_id ~schema_version (ms : merged list) : Sexp.t =
   let req_sexp (m : merged) =
     List (
       [ Atom "requirement";
@@ -60,10 +60,12 @@ let to_sexp ~batch_id (ms : merged list) : Sexp.t =
       @ (match m.note with
          | Some n -> [List [Atom "note"; Atom n]]
          | None -> [])
-      @ [ List [Atom "author"; Atom m.author] ])
+      @ [ List [Atom "headers"; List (List.map (fun (k, v) -> List [Atom k; Atom v]) m.headers)] ])
   in
   List (
     [ Atom "merged";
-      List [Atom "batch-id"; Atom batch_id];
-      List [Atom "count"; Atom (string_of_int (List.length ms))];
+      List [Atom "batch-id";       Atom batch_id];
+      List [Atom "schema-id";      Atom schema_id];
+      List [Atom "schema-version"; Atom schema_version];
+      List [Atom "count";          Atom (string_of_int (List.length ms))];
       List (Atom "requirements" :: List.map req_sexp ms) ])

@@ -9,11 +9,11 @@ type requirement = {
 }
 
 type t = {
-  schema_id : string;
+  schema_id      : string;
   schema_version : string;
-  created_at : string;
-  author : string;
-  requirements : requirement list;
+  created_at     : string;
+  headers        : (string * string) list;
+  requirements   : requirement list;
 }
 
 let parse_requirement = function
@@ -23,6 +23,14 @@ let parse_requirement = function
       source = Option.map str (find_opt "source" body);
       note = Option.map str (find_opt "note" body) }
   | _ -> failwith "expected (requirement ...)"
+
+let parse_headers body =
+  match find_multi "headers" body with
+  | None -> []
+  | Some vs ->
+    List.filter_map (function
+      | List [Atom k; v] -> Some (k, str v)
+      | _ -> None) vs
 
 let of_sexp = function
   | List (Atom "submission" :: body) ->
@@ -34,7 +42,7 @@ let of_sexp = function
     { schema_id = str (find "schema-id" body);
       schema_version = str (find "schema-version" body);
       created_at = str (find "created-at" body);
-      author = str (find "author" body);
+      headers = parse_headers body;
       requirements = reqs }
   | _ -> failwith "expected (submission ...)"
 

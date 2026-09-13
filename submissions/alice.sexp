@@ -2,7 +2,11 @@
  (schema-id crane)
  (schema-version 0.1.0)
  (created-at "2026-01-15T09:14:22Z")
- (author "alice@example.com")
+  (headers
+  (author "alice@example.com")
+  (system-name "Main crane")
+  (rds "RDS-001")
+  (rds-pp "RDS-PP-001"))
  (requirements
   (requirement
    (group performance)
@@ -19,3 +23,4 @@
    (text "Certification per EN for Europe.")
    (source Regulation)
    (note ""))))
+

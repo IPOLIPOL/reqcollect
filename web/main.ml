@@ -31,6 +31,12 @@ let heading level s =
   append e (text_node s);
   e
 
+let span cls s =
+  let e = doc##createElement (jstr "span") in
+  e##.className := jstr cls;
+  append e (text_node s);
+  e
+
 let on_click el f =
   ignore (Dom_html.addEventListener el Dom_html.Event.click
     (Dom_html.handler (fun _ -> f (); Js._false)) Js._false)
@@ -41,7 +47,11 @@ let value (i : Dom_html.inputElement Js.t) = to_ocaml i##.value
 let schema =
   Schema.of_sexp (Sexplib.Sexp.of_string Schema_data.text)
 
-(* --- form state --- *)
+(* --- header inputs (filled once at the top of the form) --- *)
+let header_inputs :
+  (Schema.header_field * Dom_html.inputElement Js.t) list ref = ref []
+
+(* --- requirement rows --- *)
 type row = {
   text_in   : Dom_html.inputElement Js.t;
   source_in : Dom_html.inputElement Js.t;
@@ -96,13 +106,19 @@ let quote s =
 let iso_now () =
   Js.to_string (Js.Unsafe.eval_string "new Date().toISOString()")
 
-let build_submission author =
+let build_submission () =
   let b = Buffer.create 1024 in
   Buffer.add_string b "(submission\n";
   Buffer.add_string b " (schema-id crane)\n";
   Buffer.add_string b " (schema-version 0.1.0)\n";
   Buffer.add_string b (Printf.sprintf " (created-at %s)\n" (quote (iso_now ())));
-  Buffer.add_string b (Printf.sprintf " (author %s)\n"     (quote author));
+  Buffer.add_string b " (headers\n";
+  List.iter (fun ((h : Schema.header_field), i) ->
+    let v = String.trim (value i) in
+    if v <> "" then
+      Buffer.add_string b (Printf.sprintf "  (%s %s)\n" h.id (quote v)))
+    (List.rev !header_inputs);
+  Buffer.add_string b "  )\n";
   Buffer.add_string b " (requirements\n";
   Hashtbl.iter (fun group rs ->
     List.iter (fun r ->
@@ -145,37 +161,36 @@ let () =
     | None -> Dom_html.document##.body
   in
 
-  append app (heading 1 schema.Schema.name);
+  append app (heading 1 "Requirements sheet");
 
-  (* author *)
-  let author_row = div ~cls:"author" () in
-  append author_row (text_node "Author: ");
-  let author_in = input ~cls:"author-in" ~ph:"name@example.com" () in
-  append author_row author_in;
-  append app author_row;
+List.iter (fun (h : Schema.header_field) ->
+  let row = div ~cls:"header-row" () in
+  append row (span "field-label" (h.Schema.name ^ ":"));
+  let i = input ~cls:"header-in" ~ph:h.Schema.placeholder () in
+  append row i;
+  append app row;
+  header_inputs := (h, i) :: !header_inputs)
+  schema.Schema.header_fields;
 
   (* groups *)
   List.iter (fun (g : Schema.group) ->
     let sec = div ~cls:"group" () in
-    sec##setAttribute (jstr "data-group") (jstr g.id);
-    append sec (heading 2 g.name);
+    sec##setAttribute (jstr "data-group") (jstr g.Schema.id);
+    append sec (heading 2 g.Schema.name);
 
     let rows_container = div ~cls:"rows" () in
     append sec rows_container;
 
     let add = button "+ Add requirement" in
     append sec add;
-    on_click add (fun () -> ignore (make_row g.id rows_container));
+    on_click add (fun () -> ignore (make_row g.Schema.id rows_container));
 
     append app sec;
-    (* start every group with one empty row *)
-    ignore (make_row g.id rows_container))
+    ignore (make_row g.Schema.id rows_container))
     schema.Schema.groups;
 
   (* export *)
   let exp = button "Export .sexp" in
   append app exp;
   on_click exp (fun () ->
-    let author = String.trim (value author_in) in
-    let author = if author = "" then "anonymous" else author in
-    download ~filename:"submission.sexp" (build_submission author))
+    download ~filename:"submission.sexp" (build_submission ()))
