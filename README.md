@@ -14,8 +14,8 @@ The design has three parts:
    files, assigns internal IDs and human-readable display IDs, and
    writes a merged sexp file into the central repository.
 
-Everything is stored as **s-expressions**. No JSON, no database. The
-repository is plain files, versionable with Git.
+Everything is stored as **s-expressions**. 
+The repository is plain files, versionable with Git.
 
 ## Status
 

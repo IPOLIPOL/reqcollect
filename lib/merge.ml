@@ -69,3 +69,36 @@ let to_sexp ~batch_id ~schema_id ~schema_version (ms : merged list) : Sexp.t =
       List [Atom "schema-version"; Atom schema_version];
       List [Atom "count";          Atom (string_of_int (List.length ms))];
       List (Atom "requirements" :: List.map req_sexp ms) ])
+
+
+(* read-back a merged.sexp so `render` can consume it *)
+
+let parse_requirement = function
+  | List (Atom "requirement" :: body) ->
+    let opt k = match Sexp_util.find_opt k body with
+      | Some (Atom s) -> Some s
+      | _ -> None in
+    let headers =
+      match Sexp_util.find_opt "headers" body with
+      | Some (List (List _ :: _ as hs)) ->
+        List.filter_map (function
+          | List [Atom k; Atom v] -> Some (k, v)
+          | _ -> None) hs
+      | _ -> []
+    in
+    { id         = Option.value ~default:"" (opt "id");
+      display_id = Option.value ~default:"" (opt "display-id");
+      group      = Option.value ~default:"" (opt "group");
+      text       = Option.value ~default:"" (opt "text");
+      source     = opt "source";
+      note       = opt "note";
+      headers    }
+  | _ -> failwith "expected (requirement ...)"
+
+let load path =
+  match Sexplib.Sexp.load_sexp path with
+  | List (Atom "merged" :: body) ->
+    (match Sexp_util.find_multi "requirements" body with
+     | None    -> []
+     | Some vs -> List.map parse_requirement vs)
+  | _ -> failwith "expected (merged ...)"

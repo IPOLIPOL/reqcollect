@@ -1,5 +1,5 @@
 (merged (batch-id batch-001) (schema-id crane) (schema-version 0.1.0)
- (count 14)
+ (count 16)
  (requirements
   (requirement (id batch-001-0001) (display-id REQ-PERF-0001)
    (group performance)
@@ -79,4 +79,16 @@
    (group regulatory) (text /><4) (source "contract #4") (note ddd)
    (headers
     ((author alice@example.com) (system-name "Main crane") (rds RDS-001)
-     (rds-pp RDS-PP-001))))))
+     (rds-pp RDS-PP-001))))
+  (requirement (id batch-001-0015) (display-id REQ-PURP-0002) (group purpose)
+   (text "dddd Lift all what it can") (source "Internal Company")
+   (note Mandatory)
+   (headers
+    ((author ipol@dddd.com) (system-name "Main crane") (rds =N1)
+     (rds-pp =KKK))))
+  (requirement (id batch-001-0016) (display-id REQ-FUNC-0002)
+   (group functional) (text "Have a cabin") (source "Good will")
+   (note Optional)
+   (headers
+    ((author ipol@dddd.com) (system-name "Main crane") (rds =N1)
+     (rds-pp =KKK))))))

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Requirements — merged</title>
+<style>
+  :root {
+    --sidebar-w: 300px;
+    --accent: #0366d6;
+    --border: #e1e4e8;
+    --muted: #6a737d;
+    --bg: #f6f8fa;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font: 14px/1.55 -apple-system, system-ui, "Segoe UI", sans-serif;
+    color: #24292e; background: #fff;
+  }
+  #nav {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: var(--sidebar-w); overflow-y: auto;
+    padding: 1em 1em 2em;
+    border-right: 1px solid var(--border);
+    background: var(--bg); font-size: 13px;
+  }
+  #nav h2 {
+    font-size: 0.85em; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--muted);
+    margin: 0 0 0.5em;
+  }
+  #nav ul { list-style: none; padding-left: 0; margin: 0; }
+  #nav ul ul { padding-left: 1.1em; border-left: 1px solid var(--border); margin-left: 0.3em; }
+  #nav li { margin: 0.1em 0; }
+  #nav a { color: #24292e; text-decoration: none; display: inline-block;
+         padding: 0.15em 0.35em; border-radius: 3px; cursor: pointer; }
+  section.system, section.group { scroll-margin-top: 1em; }
+  #nav a:hover { background: #fff; color: var(--accent); }
+  #nav summary { cursor: pointer; padding: 0.15em 0; }
+  #nav summary::marker { color: var(--muted); }
+  .count { color: var(--muted); font-weight: normal; font-size: 0.9em; }
+
+  main {
+    margin-left: var(--sidebar-w);
+    padding: 2em 3em 6em;
+    max-width: 1100px;
+  }
+  .page-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5em; margin-bottom: 1.5em;
+  }
+  .page-head h1 { font-size: 1.5em; margin: 0; }
+  .export button {
+    padding: 0.4em 0.9em; margin-left: 0.5em;
+    border: 1px solid var(--border); border-radius: 4px;
+    background: #fff; cursor: pointer; font: inherit;
+  }
+  .export button:hover { background: var(--bg); }
+
+  .system { margin: 2em 0; }
+  .system > h2 {
+    font-size: 1.25em; margin: 0 0 0.8em;
+    padding-bottom: 0.3em;
+    border-bottom: 2px solid #24292e;
+  }
+  .group { margin: 1.2em 0 1.6em; }
+  .group > h3 {
+    font-size: 1em; margin: 0 0 0.5em;
+    color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.03em; font-weight: 600;
+  }
+  .req {
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.7em 1em; margin: 0.5em 0; background: #fff;
+  }
+  .req:hover { border-color: #ccc; }
+  .req header { margin-bottom: 0.3em; }
+  .req-id {
+    font-family: ui-monospace, Menlo, monospace; font-size: 0.8em;
+    color: var(--accent); background: #f1f8ff;
+    padding: 0.1em 0.4em; border-radius: 3px;
+  }
+  .req-text { margin: 0.3em 0 0.5em; }
+  .req .meta {
+    display: grid; grid-template-columns: max-content 1fr;
+    column-gap: 1em; row-gap: 0.15em;
+    margin: 0.4em 0 0; font-size: 0.88em; color: var(--muted);
+  }
+  .req .meta dt { font-weight: 600; }
+  .req .meta dd { margin: 0; }
+
+  #totop {
+    position: fixed; bottom: 1.5em; right: 1.5em;
+    width: 2.6em; height: 2.6em; border-radius: 50%;
+    border: 1px solid var(--border); background: #fff;
+    cursor: pointer; display: none; font-size: 1.1em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  #totop:hover { background: var(--bg); }
+
+  @media print {
+    #nav, #totop, .export { display: none !important; }
+    main { margin: 0; padding: 0; max-width: none; }
+    .req { break-inside: avoid; page-break-inside: avoid; }
+    .system { break-before: page; page-break-before: always; }
+    .system:first-of-type { break-before: auto; page-break-before: auto; }
+    a { color: inherit; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<aside id="nav">
+  <h2>Systems</h2>
+  <ul class="toc">
+    <li>
+      <details open>
+        <summary><a href="#sys-1" onclick="event.stopPropagation()">Main crane <span class="count">(16)</span></a></summary>
+        <ul>
+      <li><a href="#sys-1-performance">Performance requirements <span class="count">(3)</span></a></li>
+      <li><a href="#sys-1-regulatory">Regulatory and standards <span class="count">(2)</span></a></li>
+      <li><a href="#sys-1-environmental">Environmental conditions <span class="count">(2)</span></a></li>
+      <li><a href="#sys-1-safety">Safety <span class="count">(2)</span></a></li>
+      <li><a href="#sys-1-purpose">Purpose of the system <span class="count">(2)</span></a></li>
+      <li><a href="#sys-1-functional">Functional requirements <span class="count">(2)</span></a></li>
+      <li><a href="#sys-1-interface">Interfaces <span class="count">(1)</span></a></li>
+      <li><a href="#sys-1-manufacturing">Manufacturing <span class="count">(1)</span></a></li>
+      <li><a href="#sys-1-testing">Testing and verification <span class="count">(1)</span></a></li>
+        </ul>
+      </details>
+    </li>
+  </ul>
+</aside>
+
+<main>
+  <div class="page-head">
+    <h1>Requirements sheet</h1>
+    <div class="export">
+      <button onclick="window.print()">Export PDF</button>
+      <button onclick="downloadDoc()">Export Word</button>
+    </div>
+  </div>
+<section class="system" id="sys-1">
+<h2>Main crane</h2>
+<section class="group" id="sys-1-performance">
+<h3>Performance requirements <span class="count">(3)</span></h3>
+<article class="req">
+<header><span class="req-id">REQ-PERF-0001</span></header>
+<p class="req-text">The crane must lift the transformer, mass 8 t.</p>
+<dl class="meta"><dt>Source</dt><dd>Contract-2026-014</dd><dt>rds</dt><dd>RDS-001</dd><dt>rds-pp</dt><dd>RDS-PP-001</dd><dt>Author</dt><dd>alice@example.com</dd></dl>
+</article>
+<article class="req">
+<header><span class="req-id">REQ-PERF-0002</span></header>
+<p class="req-text">Load-capacity safety factor &gt;= 1.25.</p>
+<dl class="meta"><dt>Source</dt><dd>Internal-STD-07</dd><dt>Note</dt><dd>Bound to feature LoadCapacity</dd><dt>rds</dt><dd>RDS-001</dd><dt>rds-pp</dt><dd>RDS-PP-001</dd><dt>Author</dt><dd>alice@example.com</dd></dl>
+</article>
+<article class="req">
+<header><span class="req-id">REQ-PERF-0003</span></header>
+<p class="req-text">ffjjf , dd&lt; sss &gt; ddd</p>
+<dl class="meta"><dt>Source</dt><dd>contract #3</dd><dt>Note</dt><dd>all is good,,,,</dd><dt>rds</dt><dd>RDS-001</dd><dt>rds-pp</dt><dd>RDS-PP-001</dd><dt>Author</dt><dd>alice@example.com</dd></dl>
+</article>
+</section>
+<section class="group" id="sys-1-regulatory">
+<h3>Regulatory and standards <span class="count">(2)</span></h3>
+<article class="req">
+<header><span class="req-id">REQ-REG-0001</span></header>
+<p class="req-text">Certification per EN for Europe.</p>
+<dl class="meta"><dt>Source</dt><dd>Regulation</dd><dt>rds</dt><dd>RDS-001</dd><dt>rds-pp</dt><dd>RDS-PP-001</dd><dt>Author</dt><dd>alice@example.com</dd></dl>
+</article>
+<article class="req">
+<header><span class="req-id">REQ-REG-0002</span></header>
+<p class="req-text">/&gt;&lt;4</p>
+<dl class="meta"><dt>Source</dt><dd>contract #4</dd><dt>Note</dt><dd>ddd</dd><dt>rds</dt><dd>RDS-001</dd><dt>rds-pp</dt><dd>RDS-PP-001</dd><dt>Author</dt><dd>alice@example.com</dd></dl>
+</article>
+</section>
+<section class="group" id="sys-1-environmental">
+<h3>Environmental conditions <span class="count">(2)</span></h3>
+<article class="req">
+<header><span class="req-id">REQ-ENV-0001</span></header>
+<p class="req-text">Tropical climate for Thailand; ambient up to 45 degC.</p>
+<dl class="meta"><dt>Source</dt><dd>Regulation</dd><dt>rds</dt><dd>RDS-001</dd><dt>rds-pp</dt><dd>RDS-PP-001</dd><dt>Author</dt><dd>alice@example.com</dd></dl>
+</article>
+<article class="req">
+<header><span class="req-id">REQ-ENV-0002</span></header>
+<p class="req-text">45~dd</p>
+<dl class="meta"><dt>Source</dt><dd>contract #5</dd><dt>Note</dt><dd>333</dd><dt>rds</dt><dd>RDS-001</dd><dt>rds-pp</dt><dd>RDS-PP-001</dd><dt>Author</dt><dd>alice@example.com</dd></dl>
+</article>
+</section>
+<section class="group" id="sys-1-safety">
+<h3>Safety <span class="count">(2)</span></h3>
+<article class="req">
+<header><span class="req-id">REQ-SAF-0001</span></header>
+<p class="req-text">Emergency stop shall halt all motion within 0.5 s.</p>
+<dl class="meta"><dt>Source</dt><dd>Internal-STD-07</dd><dt>rds</dt><dd>RDS-001</dd><dt>rds-pp</dt><dd>RDS-PP-001</dd><dt>Author</dt><dd>alice@example.com</dd></dl>
+</article>
+<article class="req">
+<header><span class="req-id">REQ-SAF-0002</span></header>
+<p class="req-text">444 v</p>
+<dl class="meta"><dt>Source</dt><dd>contract #7</dd><dt>Note</dt><dd>yes and no</dd><dt>rds</dt><dd>RDS-001</dd><dt>rds-pp</dt><dd>RDS-PP-001</dd><dt>Author</dt><dd>alice@example.com</dd></dl>
+</article>
+</section>
+<section class="group" id="sys-1-purpose">
+<h3>Purpose of the system <span class="count">(2)</span></h3>
+<article class="req">
+<header><span class="req-id">REQ-PURP-0001</span></header>
+<p class="req-text">lift lift and lift</p>
+<dl class="meta"><dt>Source</dt><dd>contract #1</dd><dt>Note</dt><dd>all is good</dd><dt>rds</dt><dd>RDS-001</dd><dt>rds-pp</dt><dd>RDS-PP-001</dd><dt>Author</dt><dd>alice@example.com</dd></dl>
+</article>
+<article class="req">
+<header><span class="req-id">REQ-PURP-0002</span></header>
+<p class="req-text">dddd Lift all what it can</p>
+<dl class="meta"><dt>Source</dt><dd>Internal Company</dd><dt>Note</dt><dd>Mandatory</dd><dt>rds</dt><dd>=N1</dd><dt>rds-pp</dt><dd>=KKK</dd><dt>Author</dt><dd>ipol@dddd.com</dd></dl>
+</article>
+</section>
+<section class="group" id="sys-1-functional">
+<h3>Functional requirements <span class="count">(2)</span></h3>
+<article class="req">
+<header><span class="req-id">REQ-FUNC-0001</span></header>
+<p class="req-text">100%</p>
+<dl class="meta"><dt>Source</dt><dd>contract #2</dd><dt>Note</dt><dd>all is good all is good</dd><dt>rds</dt><dd>RDS-001</dd><dt>rds-pp</dt><dd>RDS-PP-001</dd><dt>Author</dt><dd>alice@example.com</dd></dl>
+</article>
+<article class="req">
+<header><span class="req-id">REQ-FUNC-0002</span></header>
+<p class="req-text">Have a cabin</p>
+<dl class="meta"><dt>Source</dt><dd>Good will</dd><dt>Note</dt><dd>Optional</dd><dt>rds</dt><dd>=N1</dd><dt>rds-pp</dt><dd>=KKK</dd><dt>Author</dt><dd>ipol@dddd.com</dd></dl>
+</article>
+</section>
+<section class="group" id="sys-1-interface">
+<h3>Interfaces <span class="count">(1)</span></h3>
+<article class="req">
+<header><span class="req-id">REQ-IFC-0001</span></header>
+<p class="req-text">a lot</p>
+<dl class="meta"><dt>Source</dt><dd>contract #6</dd><dt>Note</dt><dd>34#4ff</dd><dt>rds</dt><dd>RDS-001</dd><dt>rds-pp</dt><dd>RDS-PP-001</dd><dt>Author</dt><dd>alice@example.com</dd></dl>
+</article>
+</section>
+<section class="group" id="sys-1-manufacturing">
+<h3>Manufacturing <span class="count">(1)</span></h3>
+<article class="req">
+<header><span class="req-id">REQ-MFG-0001</span></header>
+<p class="req-text">none</p>
+<dl class="meta"><dt>Source</dt><dd>contract #9</dd><dt>Note</dt><dd>llfkkf</dd><dt>rds</dt><dd>RDS-001</dd><dt>rds-pp</dt><dd>RDS-PP-001</dd><dt>Author</dt><dd>alice@example.com</dd></dl>
+</article>
+</section>
+<section class="group" id="sys-1-testing">
+<h3>Testing and verification <span class="count">(1)</span></h3>
+<article class="req">
+<header><span class="req-id">REQ-TEST-0001</span></header>
+<p class="req-text">not pplicable</p>
+<dl class="meta"><dt>Source</dt><dd>contract #8</dd><dt>Note</dt><dd>nd ddd</dd><dt>rds</dt><dd>RDS-001</dd><dt>rds-pp</dt><dd>RDS-PP-001</dd><dt>Author</dt><dd>alice@example.com</dd></dl>
+</article>
+</section>
+</section>
+</main>
+
+<button id="totop" title="Go to top"
+        onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+(function () {
+  var btn = document.getElementById('totop');
+  function onScroll() {
+    btn.style.display = window.scrollY > 300 ? 'block' : 'none';
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+
+  window.downloadDoc = function () {
+    var main = document.querySelector('main').cloneNode(true);
+    main.querySelectorAll('.export').forEach(function (e) { e.remove(); });
+    var css = Array.from(document.querySelectorAll('style'))
+      .map(function (s) { return s.textContent; }).join('\n');
+    var html =
+      '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' +
+      'xmlns:w="urn:schemas-microsoft-com:office:word" ' +
+      'xmlns="http://www.w3.org/TR/REC-html40"><head>' +
+      '<meta charset="utf-8"><title>Requirements</title>' +
+      '<style>' + css + '</style></head><body>' +
+      main.outerHTML + '</body></html>';
+    var blob = new Blob(['\ufeff', html], {type: 'application/msword'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'requirements.doc';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+  };
+})();
+</script>
+
+</body>
+</html>

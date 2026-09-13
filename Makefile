@@ -1,4 +1,4 @@
-.PHONY: all build merge collector clean
+.PHONY: all build merge collector clean render
 
 SUBMISSIONS := $(wildcard submissions/*.sexp)
 
@@ -14,6 +14,15 @@ merge: build
 	  $(SUBMISSIONS) \
 	  -o repo/merged.sexp -b batch-001
 
+render: build
+	mkdir -p repo
+	./_build/default/bin/main.exe render \
+	  repo/merged.sexp \
+	  -s schemas/crane.v1.sexp \
+	  -t web/merged_template.html \
+	  -o repo/merged.html
+	@echo "Open repo/merged.html in a browser"
+
 collector: build
 	mkdir -p dist
 	sed -e '/__INJECT_JS__/{' \
@@ -25,3 +34,7 @@ collector: build
 clean:
 	dune clean
 	rm -rf repo dist
+
+
+
+
