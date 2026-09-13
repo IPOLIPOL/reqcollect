@@ -21,6 +21,8 @@ _opam/
 
 # Editor
 .vscode/
+.clj-kondo/
+.lsp/
 .idea/
 *.swp
 .DS_Store
