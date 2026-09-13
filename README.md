@@ -231,4 +231,12 @@ a single file with no install. The merged view is a single file that
 opens from disk, prints cleanly, and needs no server. Both are just
 `<style>` + `<script>` + content inlined into a template.
 
+## License
 
+reqcollect is open source and released under the MIT License. This license allows you to freely use, modify, and distribute the software for both personal and commercial purposes. While the MIT License permits anyone to fork or reimplement the project, the core idea, user experience, and design of reqcollect are the result of careful thought and iteration. We kindly ask that if you build upon this project, you:
+
+Give appropriate credit to the original work
+Consider contributing any improvements back to the community
+If you're looking for additional features (custom branding, password protection, advanced customization, etc.), commercial licensing, or support, feel free to reach out.
+
+© 2026 IPOLIPOL. All rights reserved. reqcollect is a trademark of IPOLIPOL.
