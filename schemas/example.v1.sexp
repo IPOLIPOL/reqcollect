@@ -1,5 +1,5 @@
 (schema
- (id crane)
+ (id example)
  (name "Requirements sheet")
  (version 0.1.0)
 

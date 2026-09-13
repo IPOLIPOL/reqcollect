@@ -1,5 +1,5 @@
 (submission
- (schema-id crane)
+ (schema-id example)
  (schema-version 0.1.0)
  (created-at "2026-01-15T11:02:00Z")
   (headers

@@ -28,7 +28,7 @@ The whole toolchain is OCaml. JavaScript in the HTML bundles is a
 
 ```
         ┌──────────────────────────┐
-        │ schemas/crane.v1.sexp    │  the questionnaire definition
+        │ schemas/example.v1.sexp    │  the questionnaire definition
         └────────────┬─────────────┘
                      │
                      │  make collector
@@ -95,7 +95,7 @@ reqcollect/
 │   ├── template.html            collector shell
 │   └── merged_template.html     merged-view shell
 ├── schemas/
-│   └── crane.v1.sexp            example schema
+│   └── example.v1.sexp          example schema
 ├── submissions/                 incoming collector exports
 ├── repo/                        merged.sexp, merged.html
 └── dist/                        generated collector.html
@@ -111,7 +111,8 @@ your project and use it consistently:
 2. Inside it, set `(id <your-name>)` and `(name "...")`.
 3. Update the `SUBMISSIONS`/schema path in the `Makefile` if you named
    it differently.
-4. Rebuild: `make clean && make collector`.
+4. Update `web/dune` to point to the right schema file.
+5. Rebuild: `make clean && make collector`.
 
 The collector reads `schema-id` and `schema-version` from the schema
 file itself, so nothing else needs to know the name.
@@ -132,7 +133,7 @@ All artifacts use the same sexp syntax.
 **Schema** — describes header fields, groups, and requirement fields:
 ```lisp
 (schema
- (id crane)
+ (id example)
  (name "Requirements sheet")
  (version 0.1.0)
  (header-field (id author)      (name "Author")      (required true))
@@ -148,7 +149,7 @@ All artifacts use the same sexp syntax.
 **Submission** — what the collector emits:
 ```lisp
 (submission
- (schema-id crane)
+ (schema-id example)
  (schema-version 0.1.0)
  (created-at "2026-01-15T09:14:22Z")
  (headers
@@ -169,7 +170,7 @@ All artifacts use the same sexp syntax.
 ```lisp
 (merged
  (batch-id batch-001)
- (schema-id crane)
+ (schema-id example)
  (schema-version 0.1.0)
  (count 5)
  (requirements

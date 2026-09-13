@@ -10,7 +10,7 @@ build:
 merge: build
 	mkdir -p repo
 	./_build/default/bin/main.exe merge \
-	  schemas/crane.v1.sexp \
+	  schemas/example.v1.sexp \
 	  $(SUBMISSIONS) \
 	  -o repo/merged.sexp -b batch-001
 
@@ -18,7 +18,7 @@ render: build
 	mkdir -p repo
 	./_build/default/bin/main.exe render \
 	  repo/merged.sexp \
-	  -s schemas/crane.v1.sexp \
+	  -s schemas/example.v1.sexp \
 	  -t web/merged_template.html \
 	  -o repo/merged.html
 	@echo "Open repo/merged.html in a browser"

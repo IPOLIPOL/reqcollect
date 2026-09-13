@@ -1,4 +1,4 @@
-(merged (batch-id batch-001) (schema-id crane) (schema-version 0.1.0)
+(merged (batch-id batch-001) (schema-id example) (schema-version 0.1.0)
  (count 16)
  (requirements
   (requirement (id batch-001-0001) (display-id REQ-PERF-0001)

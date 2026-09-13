@@ -109,8 +109,8 @@ let iso_now () =
 let build_submission () =
   let b = Buffer.create 1024 in
   Buffer.add_string b "(submission\n";
-  Buffer.add_string b " (schema-id crane)\n";
-  Buffer.add_string b " (schema-version 0.1.0)\n";
+  Buffer.add_string b (Printf.sprintf " (schema-id %s)\n" schema.Schema.id);
+  Buffer.add_string b (Printf.sprintf " (schema-version %s)\n" schema.Schema.version);
   Buffer.add_string b (Printf.sprintf " (created-at %s)\n" (quote (iso_now ())));
   Buffer.add_string b " (headers\n";
   List.iter (fun ((h : Schema.header_field), i) ->

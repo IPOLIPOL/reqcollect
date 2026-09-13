@@ -6,10 +6,10 @@
 
 (rule
  (target schema_data.ml)
- (deps ../schemas/crane.v1.sexp)
+ (deps ../schemas/example.v1.sexp)
  (action
   (with-stdout-to schema_data.ml
    (progn
     (echo "let text = {|\n")
-    (cat ../schemas/crane.v1.sexp)
+    (cat ../schemas/example.v1.sexp)
     (echo "|}\n")))))
