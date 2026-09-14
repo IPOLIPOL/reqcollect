@@ -17,18 +17,18 @@ The main parts of design are:
    self-contained HTML document with navigation, folding, and PDF/Word
    export.
 
-Everything is stored as **s-expressions**. 
+Everything is stored as **s-expressions**.
 The repository is plain files, versionable with Git.
 The whole toolchain is OCaml. JavaScript in the HTML bundles is a
 `js_of_ocaml` build artifact, never hand-written.
 
 ## Flow
 
-> Workflow overview: **<https://ipolipol.github.io/reqcollect/>**
+> Workflow overview: **[https://ipolipol.github.io/reqcollect/](https://ipolipol.github.io/reqcollect/)**
 
 ```
         ┌──────────────────────────┐
-        │ schemas/example.v1.sexp    │  the questionnaire definition
+        │ schemas/example.v1.sexp  │  the questionnaire definition
         └────────────┬─────────────┘
                      │
                      │  make collector
@@ -36,7 +36,7 @@ The whole toolchain is OCaml. JavaScript in the HTML bundles is a
         ┌──────────────────────────┐
         │ dist/collector.html      │  single file, emailed / shared
         └────────────┬─────────────┘
-                     │           
+                     │         
                      │  user fills form
                      ▼
         ┌──────────────────────────┐
@@ -60,16 +60,16 @@ The whole toolchain is OCaml. JavaScript in the HTML bundles is a
 
 Working end to end.
 
-- [x] Schema → collector → export → merge round-trip
-- [x] Free-text input, no forced parameter registry
-- [x] Header fields (author, system name, RDS, RDS-PP) — filled once,
-      copied into every requirement at merge time
-- [x] IDs assigned at merge time, never in the collector
-- [x] Merged HTML view: sidebar tree, fold/unfold, go-to-top,
-      PDF (via print) and Word export
-- [ ] Idempotent re-import (dedup by author + group + text)
-- [ ] Schema-driven validation (required fields, known groups)
-- [ ] Configurable batch identity (currently `batch-001` hardcoded)
+- [X]  Schema → collector → export → merge round-trip
+- [X]  Free-text input, no forced parameter registry
+- [X]  Header fields (author, system name, RDS, RDS-PP) — filled once,
+  copied into every requirement at merge time
+- [X]  IDs assigned at merge time, never in the collector
+- [X]  Merged HTML view: sidebar tree, fold/unfold, go-to-top,
+  PDF (via print) and Word export
+- [ ]  Idempotent re-import (dedup by author + group + text)
+- [ ]  Schema-driven validation (required fields, known groups)
+- [ ]  Configurable batch identity (currently `batch-001` hardcoded)
 
 ## Requirements
 
@@ -78,6 +78,7 @@ Working end to end.
 - `opam install dune sexplib cmdliner js_of_ocaml js_of_ocaml-ppx`
 
 ## Layout
+
 ```
 reqcollect/
 ├── dune-project
@@ -118,6 +119,7 @@ The collector reads `schema-id` and `schema-version` from the schema
 file itself, so nothing else needs to know the name.
 
 ## Build
+
 ```sh
 make            # dune build
 make collector  # -> dist/collector.html
@@ -131,6 +133,7 @@ make clean
 All artifacts use the same sexp syntax.
 
 **Schema** — describes header fields, groups, and requirement fields:
+
 ```lisp
 (schema
  (id example)
@@ -147,6 +150,7 @@ All artifacts use the same sexp syntax.
 ```
 
 **Submission** — what the collector emits:
+
 ```lisp
 (submission
  (schema-id example)
@@ -167,6 +171,7 @@ All artifacts use the same sexp syntax.
 ```
 
 **Merged** — output of `make merge`:
+
 ```lisp
 (merged
  (batch-id batch-001)
@@ -215,7 +220,7 @@ a fresh page.
 
 **Why sexp** S-expressions are trivially canonical (one
 spelling per tree), trivially safely readable without `eval`, diffable
-in Git, and natively supported in OCaml via `sexplib0`. 
+in Git, and natively supported in OCaml via `sexplib0`.
 
 **Why IDs are assigned at merge.** The collector runs offline, in
 isolation. Two collectors cannot coordinate unique identifiers. The
@@ -253,8 +258,9 @@ opens from disk, prints cleanly, and needs no server. Both are just
 ## License
 
 reqcollect is open source and released under the MIT License. This license allows you to freely use, modify, and distribute the software for both personal and commercial purposes. While the MIT License permits anyone to fork or reimplement the project, the core idea, user experience, and design of reqcollect are the result of careful thought and iteration. We kindly ask that if you build upon this project, you:
+
 - Give appropriate credit to the original work
 - Consider contributing any improvements back to the community
-If you're looking for additional features (custom branding, password protection, advanced customization, etc.), commercial licensing, or support, feel free to reach out.
+  If you're looking for additional features (custom branding, password protection, advanced customization, etc.), commercial licensing, or support, feel free to reach out.
 
 © 2026 IPOLIPOL. All rights reserved. reqcollect is a trademark of IPOLIPOL.
